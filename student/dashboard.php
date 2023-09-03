@@ -3,10 +3,10 @@ include '../db_connection/connection.php';
 session_start();
 
 $name = "Guest";
-
+$image = "";
 if (isset($_SESSION["student_id"])) {
     $student_id = $_SESSION["student_id"];
-    $sql = "select first_name,last_name from student_info where student_id='$student_id'";
+    $sql = "select first_name,last_name,image from student_info where student_id='$student_id'";
     $res = mysqli_query($con, $sql);
     if ($res) {
         $row_count = mysqli_num_rows($res);
@@ -14,6 +14,7 @@ if (isset($_SESSION["student_id"])) {
             $row = mysqli_fetch_array($res);
             $first_name = $row["first_name"];
             $last_name = $row["last_name"];
+            $image = $row["image"];
 
             $name = $first_name . " " . $last_name;
         }
@@ -71,6 +72,10 @@ if (isset($_SESSION["student_id"])) {
             border-radius: 10px;
             box-shadow: 0px 0px 10px 0px #000;
         }
+
+        .login-form .form-group {
+            margin-bottom: 20px;
+        }
     </style>
 
 </head>
@@ -82,6 +87,9 @@ if (isset($_SESSION["student_id"])) {
         <div class="row">
             <div class="col-md-6 offset-md-3 login-form">
                 <h2 class="text-center">Welcome, <?= $name ?></h2>
+                <div class="form-group">
+                    <img src="images/<?= $image ?>" class=" rounded mx-auto d-block img-thumbnail w-25" alt="Image not Found">
+                </div>
             </div>
         </div>
     </div>
